@@ -25,7 +25,7 @@ public:
             cout << name << "Dead in battle" << endl;
         }
         else {
-            cout << "HP: " << hp<<endl;
+            cout << "HP: " << hp << endl;
         }
     }
     void take_health(int health) {
@@ -35,7 +35,7 @@ public:
         }
         else {
             hp = hp + health;
-            cout << "Health " << name <<" " << hp << endl;
+            cout << "Health " << name << " " << hp << endl;
         }
 
     }
@@ -43,6 +43,11 @@ public:
         cout << name << " attacks " << enemy.name << "!" << " ";
         enemy.take_damage(damage);
     }
+};
+class Wizard : public Hero {
+public:
+    int mana;
+    Wizard(string name, int start_hp, int mana) :Hero(start_name, start_hp) { mana = start_mana };
 };
 
 int main() {
@@ -55,13 +60,13 @@ int main() {
     cout << "\n--- Start" << endl;
     while (true) {
         int value;
-        int a, b, c;
+        
         //int random_heal = rand();
         cin >> value;
         if (value == 0) {
-            cout << "Game has end"<<endl;
+            cout << "Game has end" << endl;
             break;
-            
+
         }
         else if (value == 1) {
             cout << "action 1: attack" << endl;
@@ -76,24 +81,43 @@ int main() {
                 cout << "Game has end" << endl;
                 break;
             case 1:
-                warrior.attack(wizard, 30);
-                cout << "Look! " << wizard.name << "does heal"<<endl;
-                if (wizard.hp < 40 && wizard) {
+                if (wizard.hp < 40) {
+                    warrior.attack(wizard, 30);
+                    cout << "Look! " << wizard.name << "does heal" << endl;
                     wizard.take_health(20);
+                    wizard.attack(warrior, 20);
+                    cout << warrior.name << " Help me " << helper.name << endl;
+                    helper.attack(wizard, 10);
+                    wizard.attack(helper, 20);
+                }
+                else {
+                    warrior.attack(wizard, 30);
                     cout << warrior.name << " Help me " << helper.name << endl;
                     helper.attack(wizard, 10);
                 }
                 break;
-            case 2:
+            case 2: 
+                //int massive[3]{}
+                double persent_hp = (warrior.hp / 100.0) * 70;
+                if (warrior.hp < persent_hp ) {
+                    cout << warrior.name << " drink heal" << endl;
+                    warrior.take_health(15);
+                }
+                else {
+                    cout << "get " << helper.name << " heal" << endl;
+                    helper.take_health(15);
+                    cout << wizard.name << " does attack with a big effort" << endl;
+                    wizard.attack(helper, 25);
+                }
+                break;
+           
             }
 
-                
-            }
-            
 
-        }//else if
-        
-    } //while
-    
-    return 0;
-}//int main
+        }
+
+
+    }//else if
+
+} //while
+
